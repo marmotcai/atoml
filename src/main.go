@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "github.com/marmotcai/atoml/atoml/routers"
+	_ "github.com/marmotcai/atoml/src/routers"
 	"github.com/astaxie/beego"
 )
 

@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"github.com/marmotcai/atoml/atoml/controllers"
+	"github.com/marmotcai/atoml/src/controllers"
 	"github.com/astaxie/beego"
 )
 
