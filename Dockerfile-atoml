@@ -1,0 +1,19 @@
+#源镜像
+FROM atoml/beego
+#作者
+MAINTAINER marmotcai "marmotcai@163.com"
+
+##########################################################################################################
+# atoml
+
+ENV SRC_DIR /go/src/github.com/marmotcai/atoml
+
+COPY . $SRC_DIR
+WORKDIR $SRC_DIR
+
+RUN go build .
+
+
+##########################################################################################################
+
+ENTRYPOINT sh ./entrypoint.sh

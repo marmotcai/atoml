@@ -1,0 +1,15 @@
+#源镜像
+FROM golang:latest
+#作者
+MAINTAINER marmotcai "marmotcai@163.com"
+
+##########################################################################################################
+# beego
+
+ENV SRC_GITHUB_BEEGO github.com/astaxie/beego
+ENV SRC_GITHUB_BEE github.com/beego/bee
+
+RUN  go get $SRC_GITHUB_BEEGO \
+  && go get $SRC_GITHUB_BEE
+
+RUN bee version
