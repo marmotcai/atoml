@@ -1,5 +1,5 @@
 #源镜像
-FROM atoml/beego
+FROM atoml/devkit:latest
 #作者
 MAINTAINER marmotcai "marmotcai@163.com"
 
@@ -12,7 +12,6 @@ COPY . $SRC_DIR
 WORKDIR $SRC_DIR
 
 RUN go build .
-
 
 ##########################################################################################################
 

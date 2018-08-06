@@ -1,0 +1,29 @@
+#源镜像
+FROM golang:latest
+#作者
+MAINTAINER marmotcai "marmotcai@163.com"
+
+##########################################################################################################
+## IPFS
+
+ENV SRC_GITHUB_GO_IPFS https://github.com/ipfs/go-ipfs.git
+ENV SRC_DIR /go/src/github.com/ipfs
+
+RUN set -x \
+  && mkdir -p $SRC_DIR \
+  && cd $SRC_DIR \
+  && git clone $SRC_GITHUB_GO_IPFS
+
+WORKDIR $SRC_DIR/go-ipfs
+
+#设置工作目录
+WORKDIR $SRC_DIR/go-ipfs
+
+#go构建可执行文件
+RUN make build
+
+##########################################################################################################
+## 
+
+RUN go get -u github.com/ipfs/go-ipfs-api
+

@@ -1,0 +1,24 @@
+#源镜像
+FROM golang:latest
+#作者
+MAINTAINER marmotcai "marmotcai@163.com"
+
+##########################################################################################################
+## go-ipfs-api
+
+RUN go get -u github.com/ipfs/go-ipfs-api
+
+##########################################################################################################
+# beego
+
+ENV SRC_GITHUB_BEEGO github.com/astaxie/beego
+ENV SRC_GITHUB_BEE github.com/beego/bee
+
+RUN  go get -u $SRC_GITHUB_BEEGO \
+  && go get -u $SRC_GITHUB_BEE
+
+RUN go get -u gopkg.in/yaml.v2
+
+RUN bee version
+
+##########################################################################################################
