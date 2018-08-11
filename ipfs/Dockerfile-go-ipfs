@@ -7,12 +7,17 @@ MAINTAINER marmotcai "marmotcai@163.com"
 ## IPFS
 
 ENV SRC_GITHUB_GO_IPFS https://github.com/ipfs/go-ipfs.git
+ENV SRC_GITHUB_GO_IPFS_ZIP https://github.com/ipfs/go-ipfs/archive/master.zip
 ENV SRC_DIR /go/src/github.com/ipfs
 
 RUN set -x \
   && mkdir -p $SRC_DIR \
   && cd $SRC_DIR \
-  && git clone $SRC_GITHUB_GO_IPFS
+#  && git clone $SRC_GITHUB_GO_IPFS
+  && apt update && apt install unzip \
+  && wget -qO $SRC_DIR/go-ipfs.zip $SRC_GITHUB_GO_IPFS_ZIP \
+  && unzip $SRC_DIR/go-ipfs.zip \
+  && mv go-ipfs-master go-ipfs
 
 WORKDIR $SRC_DIR/go-ipfs
 
@@ -25,5 +30,5 @@ RUN make build
 ##########################################################################################################
 ## 
 
-RUN go get -u github.com/ipfs/go-ipfs-api
+# RUN go get -u github.com/ipfs/go-ipfs-api
 
