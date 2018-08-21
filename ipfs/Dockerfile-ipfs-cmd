@@ -4,20 +4,28 @@ FROM debian:latest
 MAINTAINER marmotcai "marmotcai@163.com"
 
 ##########################################################################################################
+## NodeJS
+
+RUN apt-get update -y && apt-get install --no-install-recommends -y -q curl python build-essential git ca-certificates 
+RUN mkdir /nodejs && curl http://nodejs.org/dist/v0.10.31/node-v0.10.31-linux-x64.tar.gz | tar xvzf - -C /nodejs --strip-components=1
+
+ENV PATH $PATH:/nodejs/bin
+
+##########################################################################################################
 ## IPFS
 
 ENV IPFS_URL https://github.com/ipfs/go-ipfs/releases/download/v0.4.17/go-ipfs_v0.4.17_linux-amd64.tar.gz
 
-ENV IPFS_DIR .
+ENV IPFS_DIR /home/go-ipfs
 ENV IPFS_GOIPFS go-ipfs
 
-RUN mkdir IPFS_DIR
-WORKDIR IPFS_DIR
+RUN mkdir $IPFS_DIR
+WORKDIR $IPFS_DIR
 
 RUN echo $IPFS_DIR
 
 #本地
-COPY $IPFS_DIR/$IPFS_GOIPFS.tar.gz .
+COPY $IPFS_GOIPFS.tar.gz .
 #远程
 #RUN apt update && apt install -y wget
 #RUN wget -qO $IPFS_DIR/$IPFS_GOIPFS.tar.gz $IPFS_URL
@@ -25,15 +33,25 @@ COPY $IPFS_DIR/$IPFS_GOIPFS.tar.gz .
 RUN tar zxf $IPFS_GOIPFS.tar.gz
 RUN cd $IPFS_GOIPFS && sh install.sh
 
+WORKDIR /home 
+RUN rm -rf $IPFS_DIR
+
 RUN ipfs init
+RUN ipfs config --json Addresses.API '"/ip4/0.0.0.0/tcp/5001"'
+RUN ipfs config --json Addresses.Gateway '"/ip4/0.0.0.0/tcp/8080"'
 
 ##########################################################################################################
 
 ##暴露端口
-EXPOSE 880 8080
+EXPOSE 5001 8080
+
+RUN echo "http://localhost:5001/webui"
+
+RUN echo "http://localhost:8080/ipfs/xxx"
 
 #最终运行docker的命令
-ENTRYPOINT ["ipfs", "daemon", "--offline"]
+#ENTRYPOINT ["ipfs", "daemon", "--offline"]
+ENTRYPOINT ["ipfs", "daemon"]
 
 ##########################################################################################################
 
