@@ -28,15 +28,6 @@ docker run -v ${source_path}:${docker_path} --rm=true atoml/ffmpeg \
 #fi
 #echo $DECODEFILE
 
-#if [ ! -f "$DECODEFILE" ]; then
-#    rm -rf $DECODEFILE
-#fi
-
-#docker run -v $PWD:/tmp --rm=true atoml/ffmpeg \
-#        -stats \
-#        -i /tmp/${INPUTPATH} \
-#        -t 5 -f mp4 ${OUTPATH}
-
 # docker rm -f tmp-ffmpeg
 # curl -connect-timeout 2 -m 5 "http://xxxx/$OUTPATH"
 
