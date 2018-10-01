@@ -1,0 +1,59 @@
+FROM ubuntu:16.04 AS builder
+
+ARG COMMIT_HASH
+
+WORKDIR /usr/src
+
+RUN apt-get update && apt-get install -y \
+	build-essential \
+        libssl-dev \
+        ca-certificates \
+        git \
+        cmake \
+	--no-install-recommends \
+	&& rm -rf /var/lib/apt/lists/*
+
+# RUN git clone https://github.com/ntop/n2n && cd n2n && git reset --hard $COMMIT_HASH && make
+RUN git clone https://github.com/meyerd/n2n.git && cd n2n/n2n_v2 && cmake . && make
+RUN cp /usr/src/n2n/n2n_v2/supernode /usr/src/n2n/supernode
+RUN cp /usr/src/n2n/n2n_v2/edge /usr/src/n2n/edge
+
+FROM ubuntu:16.04
+
+ENV SUPERNODE_PORT=7654 
+
+ENV SRC_DIR /usr/bin/
+
+RUN apt-get update && apt-get install -y \
+        libssl-dev \
+        isc-dhcp-server \
+        vim \
+        net-tools \
+        inetutils-ping \
+        --no-install-recommends \
+        && rm -rf /var/lib/apt/lists/*
+
+RUN    sed -i 's/INTERFACES=/INTERFACES="n2n0"/g' /etc/default/isc-dhcp-server \
+    && sed -i '$a\subnet 10.0.0.0 netmask 255.255.255.0 {' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\  range 10.0.0.100 10.0.0.199;' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\  option domain-name-servers 8.8.8.8,114.114.114.114;' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\  option domain-name "n2n.atoml.com";' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\  option subnet-mask 255.255.255.0;' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\  option routers 10.0.0.1;' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\  option broadcast-address 10.0.0.255;' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\  default-lease-time 600;' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\  max-lease-time 7200;' /etc/dhcp/dhcpd.conf \
+    && sed -i '$a\}' /etc/dhcp/dhcpd.conf
+
+COPY --from=builder /usr/src/n2n/supernode $SRC_DIR
+COPY --from=builder /usr/src/n2n/edge $SRC_DIR
+
+COPY ./entrypoint.sh $SRC_DIR
+
+WORKDIR $SRC_DIR
+RUN chmod +x entrypoint.sh
+
+EXPOSE 5645/udp
+EXPOSE ${SUPERNODE_PORT}/udp
+
+ENTRYPOINT ["entrypoint.sh"]
