@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 docker run --rm=true \
          -v ~/input:/input -v ~/output:/output \
         atoml/ffmpeg \

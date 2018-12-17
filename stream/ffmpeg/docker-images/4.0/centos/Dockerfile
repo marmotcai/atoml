@@ -20,7 +20,7 @@ ARG        LD_LIBRARY_PATH=/opt/ffmpeg/lib
 ARG        PREFIX=/opt/ffmpeg
 ARG        MAKEFLAGS="-j2"
 
-ENV         FFMPEG_VERSION=4.0.2     \
+ENV         FFMPEG_VERSION=4.0.3     \
             FDKAAC_VERSION=0.1.5      \
             LAME_VERSION=3.99.5       \
             LIBASS_VERSION=0.13.7     \
@@ -222,7 +222,7 @@ RUN  \
         DIR=/tmp/freetype && \
         mkdir -p ${DIR} && \
         cd ${DIR} && \
-        curl -sLO https://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz && \
+        curl -sLO http://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz && \
         echo ${FREETYPE_SHA256SUM} | sha256sum --check && \
         tar -zx --strip-components=1 -f freetype-${FREETYPE_VERSION}.tar.gz && \
         ./configure --prefix="${PREFIX}" --disable-static --enable-shared && \
