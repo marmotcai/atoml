@@ -8,6 +8,18 @@ RUN npm i -g --unsafe-perm cordova@${CORDOVA_VERSION}
 
 WORKDIR $WORK_DIR
 
+ARG APPNAME="myapp"
+
+ENV COMNAME com.atoml
+ENV PACKAGENAME $COMNAME.$APPNAME
+
+RUN echo y | cordova create $APPNAME $PACKAGENAME $APPNAME && \
+	cd $APPNAME && cordova platform add android --save && \
+	echo y | cordova build android --release
+
+#################################################################################################
+
+
 FROM atoml/cordova AS ionic
 
 ENV IONIC_VERSION 4.5.0

@@ -25,11 +25,12 @@ ADD Configfile/SystemWebViewEngine.java $APPNAME/platforms/android/CordovaLib/sr
 ADD Configfile/$APPNAME-build.json $APPNAME/
 ADD Configfile/$APPNAME-key.keystore $APPNAME/
 ADD Configfile/mconfig.sh $APPNAME/
+ADD Configfile/$APPNAME-build.json $APPNAME/
 
 WORKDIR $WORK_DIR/$APPNAME
 RUN cp -rf www/res/icon/android/. res/icon/android
 
 RUN sh mconfig.sh
 RUN echo y | cordova build android --release
-RUN zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release.apk platforms/android/app/build/outputs/apk/release/$appname.apk
-RUN cp -rf platforms/android/app/build/outputs/apk/release/$appname.apk $WORK_DIR/$appname.apk
+# RUN zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release.apk platforms/android/app/build/outputs/apk/release/$appname.apk
+# RUN cp -rf platforms/android/app/build/outputs/apk/release/$appname.apk $WORK_DIR/$appname.apk

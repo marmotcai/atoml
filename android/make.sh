@@ -20,10 +20,10 @@ case $cmd in
         appname=${appname%%.*}
         appname=${appname%%-*}
 
-        if [ ! -f $configdir/$appname-key.keystore ]
-        then
-            keytool -genkey -keystore $configdir/$appname-key.keystore -alias $appname -storepass ${appname}123456 -keypass ${appname}123456 -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=localhost, OU=localhost, O=localhost, L=SH, ST=SH, C=CN"
-        fi
+        # if [ ! -f $configdir/$appname-key.keystore ]
+        # then
+        #     keytool -genkey -keystore $configdir/$appname-key.keystore -alias $appname -storepass ${appname}123456 -keypass ${appname}123456 -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=localhost, OU=localhost, O=localhost, L=SH, ST=SH, C=CN"
+        # fi
 
         make make SOURCEADDR=${URL} APPNAME=${appname}
     ;;
