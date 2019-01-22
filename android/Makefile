@@ -2,18 +2,6 @@
 default: help
 
 help:
-	echo "use: build-image name tag imagename(Co.,/image)"
-	echo "     e.g: sh make.sh build-image ubuntu base atoml/base"
-	echo "          sh make.sh build-image java java atoml/java"
-	echo "          sh make.sh build-image android android-sdk atoml/android-sdk"
-	echo "          sh make.sh build-image android android-ndk atoml/android-ndk"
-	echo "          sh make.sh build-image nodejs nodejs atoml/android-nodejs"
-	echo "          sh make.sh build-image cordova cordova atoml/cordova"
-	echo "          sh make.sh build-image ionic ionic atoml/ionic"
-	echo "use: build project url"
-	echo "     e.g: sh make.sh build http://git.atoml.com/taoyang/hangu-epg.git"
-	echo "use: test imagename"
-	echo "use: clean"
 
 build-image:
 

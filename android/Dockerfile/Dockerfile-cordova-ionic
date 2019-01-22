@@ -1,21 +1,17 @@
 FROM atoml/android-nodejs AS cordova
 
-ENV CORDOVA_VERSION 8.0.0
-
 ENV WORK_DIR /opt
-
-RUN npm i -g --unsafe-perm cordova@${CORDOVA_VERSION}
-
 WORKDIR $WORK_DIR
+# ENV CORDOVA_VERSION 8.0.0
+# RUN npm i -g --unsafe-perm cordova@${CORDOVA_VERSION}
+RUN npm i -g --unsafe-perm cordova
 
-ARG APPNAME="myapp"
-
+ARG APPNAME="exsample"
 ENV COMNAME com.atoml
 ENV PACKAGENAME $COMNAME.$APPNAME
-
 RUN echo y | cordova create $APPNAME $PACKAGENAME $APPNAME && \
 	cd $APPNAME && cordova platform add android --save && \
-	echo y | cordova build android --release
+	cordova requirements
 
 #################################################################################################
 

@@ -43,7 +43,7 @@ case $cmd in
         echo "         sh make.sh build-image cordova cordova atoml/cordova"
         echo "         sh make.sh build-image ionic ionic atoml/ionic"
         echo "use: build project url"
-        echo "    e.g: sh make.sh build “http://git.atoml.com/taoyang/hangu-epg.git"
+        echo "    e.g: sh make.sh build http://git.atoml.com/taoyang/hangu-epg.git"
         echo "use: test imagename"
         echo "use: clean"
         exit 1;

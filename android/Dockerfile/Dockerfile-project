@@ -25,7 +25,7 @@ ADD Configfile/SystemWebViewEngine.java $APPNAME/platforms/android/CordovaLib/sr
 ADD Configfile/$APPNAME-build.json $APPNAME/
 ADD Configfile/$APPNAME-key.keystore $APPNAME/
 ADD Configfile/mconfig.sh $APPNAME/
-ADD Configfile/$APPNAME-build.json $APPNAME/
+ADD Configfile/$APPNAME-build.json $APPNAME/build.json
 
 WORKDIR $WORK_DIR/$APPNAME
 RUN cp -rf www/res/icon/android/. res/icon/android
